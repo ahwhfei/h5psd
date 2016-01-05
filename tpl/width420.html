@@ -134,8 +134,13 @@ h5.layers.forEach(function (layer) {
       color = 'color:' + rgba2color(value);
     }
     var content = String(layer.text.value || '').replace(/\n\r?|\r/g, '<br>');
+    var tagList = ['<p>','<strong>','<b>','<i>','<a>','<button>'];
+    var tagName = (layer.name || '').match(/<[^>]+>/);
+    tagName = tagName!==null ? tagName[0] : '<p>';
+    var tagMatched = tagList.indexOf(tagName)>-1;
+    tagName = tagMatched===true ? tagName.match(/\w/g).join('') : 'p';
     %>
-      <p class="layer" <%- title %>style="left:<%- layer.left %>px;top:<%- layer.top %>px;font-size:<%- layer.text.font.sizes[0] %>px;<%- color %><%- opacity %>"><%- content %></p>
+      <<%- tagName %> class="layer" <%- title %>style="left:<%- layer.left %>px;top:<%- layer.top %>px;font-size:<%- layer.text.font.sizes[0] %>px;<%- color %><%- opacity %>"><%- content %></<%- tagName %>>
     <%
   } else {
     %>
